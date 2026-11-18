@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Git files
+.git/
+.gitignore
+
+# Environment variables and secrets
+.env
+.env.*
+
+
+# Logs
+*.log
+
+# Editor configuration
+.vscode/
+
+# Documentation
+README.md
+
+
