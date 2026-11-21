@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -67,6 +68,37 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Application EC2') {
+            steps {
+                withCredentials([
+                    sshUserPrivateKey(
+                        credentialsId: 'app-ec2-ssh',
+                        keyFileVariable: 'SSH_KEY',
+                        usernameVariable: 'SSH_USER'
+                    )
+                ]) {
+                    sh '''
+                        ssh -i "$SSH_KEY" \
+                            -o BatchMode=yes \
+                            -o StrictHostKeyChecking=accept-new \
+                            "$SSH_USER@172.31.37.185" \
+                            "set -e
+                             docker pull ${IMAGE_NAME}:${IMAGE_TAG}
+                             docker rm -f kanban-test || true
+                             docker run -d \
+                                 --name kanban-test \
+                                 --restart unless-stopped \
+                                 -p 8080:8080 \
+                                 ${IMAGE_NAME}:${IMAGE_TAG}
+                             sleep 5
+                             curl -fsS http://localhost:8080/ > /dev/null
+                             echo 'Deployment successful!'
+                            "
+                    '''
+                }
+            }
+        }
     }
 
     post {
@@ -79,5 +111,6 @@ pipeline {
         }
     }
 }
+
 
 
