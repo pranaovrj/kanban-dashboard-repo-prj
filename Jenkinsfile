@@ -46,6 +46,27 @@ pipeline {
                 }
             }
         }
+
+        stage('Test SSH Connection') {
+            steps {
+                withCredentials([
+                    sshUserPrivateKey(
+                        credentialsId: 'app-ec2-ssh',
+                        keyFileVariable: 'SSH_KEY',
+                        usernameVariable: 'SSH_USER'
+                    )
+                ]) {
+                    sh '''
+                        ssh -i "$SSH_KEY" \
+                            -o BatchMode=yes \
+                            -o StrictHostKeyChecking=accept-new \
+                            -o ConnectTimeout=10 \
+                            "$SSH_USER@172.31.37.185" \
+                            "hostname && whoami"
+                    '''
+                }
+            }
+        }
     }
 
     post {
@@ -58,4 +79,5 @@ pipeline {
         }
     }
 }
+
 
