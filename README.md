@@ -1,77 +1,94 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Project Overview
+This project demonstrates the implementation of an automated Continuous Integration and Continuous Deployment (CI/CD) pipeline for a Kanban Dashboard web application using GitHub, Jenkins, Docker, Docker Hub, and AWS EC2.
+The primary objective is to automate the application deployment process, starting from source code management in GitHub to containerized deployment on an AWS EC2 instance.
+The project uses two separate EC2 instances to isolate the CI/CD environment from the application hosting environment.
+Key Objectives
+Automate application build and deployment using Jenkins.
+Integrate GitHub with Jenkins through webhooks.
+Containerize the application using Docker.
+Implement Docker image versioning and registry management.
+Deploy the application on AWS EC2.
+Apply Docker container security best practices.
+Implement health checks, logging, monitoring, and resource limits.
+Key Features
+Automated CI/CD pipeline.
+Multi-stage Docker build.
+Non-root container execution.
+Docker Hub image publishing.
+Automated deployment workflow.
+Container health monitoring.
+Resource utilization limits.
 
 
-#######################################################
-GitHub webhook integration test - November 2026
+
+
+
+
+
+
+
+Components
+Component
+Responsibility
+GitHub
+Source code management
+GitHub Webhook
+Triggers Jenkins automatically
+Jenkins EC2
+CI/CD pipeline execution
+Docker
+Application containerization
+Docker Hub
+Docker image registry
+Application EC2
+Runs the deployed container
+Nginx
+Serves the production application
+Docker HEALTHCHECK
+Container health validation
+
+Deployment Flow
+Developer pushes code to GitHub.
+GitHub Webhook triggers Jenkins.
+Jenkins retrieves the latest source code.
+Jenkins builds the Docker image.
+The image is tagged with a version.
+Jenkins authenticates with Docker Hub and pushes the image.
+The application EC2 instance pulls the image.
+The previous application container is replaced with the new deployment.
+Docker health checks and application validation confirm deployment status.
+Users access the application through the EC2 public IP and application port.
+
+
+Technologies Used
+Technology
+Purpose
+AWS EC2
+Cloud infrastructure
+Ubuntu Linux
+Operating system
+Git
+Version control
+GitHub
+Source code repository
+GitHub Webhooks
+Automated pipeline triggering
+Jenkins
+CI/CD automation
+Docker
+Containerization
+Docker Hub
+Container image registry
+Nginx
+Production web server
+React
+Frontend framework
+TypeScript
+Application development
+Vite
+Frontend build tool
+Linux Shell
+Server administration
+
+
+
