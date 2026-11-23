@@ -1,4 +1,4 @@
-1. Project Overview
+ Project Overview
 This project demonstrates the implementation of an automated Continuous Integration and Continuous Deployment (CI/CD) pipeline for a Kanban Dashboard web application using GitHub, Jenkins, Docker, Docker Hub, and AWS EC2.
 The primary objective is to automate the application deployment process, starting from source code management in GitHub to containerized deployment on an AWS EC2 instance.
 The project uses two separate EC2 instances to isolate the CI/CD environment from the application hosting environment.
@@ -92,3 +92,5 @@ Server administration
 
 
 
+Architecture
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/10757cdf-23c8-4c47-a63f-b9c5929183f0" />
